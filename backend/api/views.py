@@ -5,6 +5,7 @@ from django.forms.models import model_to_dict
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from products.serializers import ProductSerializer
 
 # Create your views here.
 
@@ -38,8 +39,9 @@ def api_home(request, *args, **kwargs):
     """
     Django Request Framework API view
     """
-    modelData = Product.objects.all().order_by("?").first() ## gives random product
+    instance = Product.objects.all().order_by("?").first() ## gives random product
     data = {}
-    if modelData:
-        data = model_to_dict(modelData, fields=['content','title','price'])
+    if instance:
+        data = ProductSerializer(instance).data
+        print(data)
     return Response(data)
