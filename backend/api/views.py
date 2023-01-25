@@ -3,6 +3,9 @@ import json
 from products.models import Product
 from django.forms.models import model_to_dict
 
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
 # Create your views here.
 
 # def api_home(request, *args, **kwargs):
@@ -19,12 +22,24 @@ from django.forms.models import model_to_dict
 #     data['content_type'] = request.content_type
 #     return JsonResponse(data)
 
+# def api_home(request, *args, **kwargs):
+#     modelData = Product.objects.all().order_by("?").first() ## gives random product
+#     data = {}
+#     if modelData:
+#         # data['content'] = modelData.content
+#         # data['title'] = modelData.title
+#         # data['price'] = modelData.price
+#         data = model_to_dict(modelData, fields=['content','title','price'])
+#     return JsonResponse(data)
+
+
+@api_view(["GET"])
 def api_home(request, *args, **kwargs):
+    """
+    Django Request Framework API view
+    """
     modelData = Product.objects.all().order_by("?").first() ## gives random product
     data = {}
     if modelData:
-        # data['content'] = modelData.content
-        # data['title'] = modelData.title
-        # data['price'] = modelData.price
         data = model_to_dict(modelData, fields=['content','title','price'])
-    return JsonResponse(data)
+    return Response(data)
