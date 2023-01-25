@@ -24,9 +24,10 @@ import requests
 
 
 
-endpoint = "http://localhost:8000/"
+endpoint = "http://localhost:8000/api"
 
 
 resp = requests.get(endpoint) 
 
-print(resp.text)
+print(resp.json()['message'])
+print(resp.status_code)
