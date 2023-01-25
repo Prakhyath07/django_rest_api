@@ -30,4 +30,4 @@ endpoint = "http://localhost:8000/api"
 resp = requests.get(endpoint, json={"message":"hi there"}, params={'abc':123}) 
 
 print(resp.json())
-print(resp.status_code)
+# print(resp.status_code)
