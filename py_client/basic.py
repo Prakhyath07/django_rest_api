@@ -26,8 +26,8 @@ import requests
 
 endpoint = "http://localhost:8000/api"
 
+## params is same as get request which can be part of url, get in requests.get is get request
+resp = requests.get(endpoint, json={"message":"hi there"}, params={'abc':123}) 
 
-resp = requests.get(endpoint) 
-
-print(resp.json()['message'])
+print(resp.json())
 print(resp.status_code)
