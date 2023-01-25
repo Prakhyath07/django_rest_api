@@ -34,14 +34,26 @@ from products.serializers import ProductSerializer
 #     return JsonResponse(data)
 
 
-@api_view(["GET"])
+# @api_view(["GET"])
+# def api_home(request, *args, **kwargs):
+#     """
+#     Django Request Framework API view
+#     """
+#     instance = Product.objects.all().order_by("?").first() ## gives random product
+#     data = {}
+#     if instance:
+#         data = ProductSerializer(instance).data
+#         print(data)
+#     return Response(data)
+
+@api_view(["POST"])
 def api_home(request, *args, **kwargs):
     """
     Django Request Framework API view
     """
-    instance = Product.objects.all().order_by("?").first() ## gives random product
-    data = {}
-    if instance:
-        data = ProductSerializer(instance).data
-        print(data)
-    return Response(data)
+    ## serializer can valiate data as well
+    serializer = ProductSerializer(data= request.data)
+    if serializer.is_valid():
+        print(serializer.data)
+        data = serializer.data
+        return Response(data)
