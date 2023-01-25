@@ -1,0 +1,4 @@
+* rest api - something that uses http 
+* regular request returns a html page (more for humans to look at)
+* rest api http request returns a json or xml usually (more so for softwares to communicate with each other)
+* 
