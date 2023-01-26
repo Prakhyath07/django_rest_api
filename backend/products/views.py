@@ -6,7 +6,7 @@ from api.permissions import IsStaffEditorPermission
 
 from api.authentication import TokenAuthentication
 
-from api.mixins import StaffEditorPermissionMixin
+from api.mixins import StaffEditorPermissionMixin, UserQuerySetMixin
 
 # class ProductCreateAPIView(generics.CreateAPIView):
 #     queryset = Product.objects.all()
@@ -23,7 +23,10 @@ from api.mixins import StaffEditorPermissionMixin
 
 
 ## listcreate does both list and create
-class ProductCreateAPIView(StaffEditorPermissionMixin,generics.ListCreateAPIView):
+class ProductCreateAPIView(
+    UserQuerySetMixin,
+    StaffEditorPermissionMixin,
+    generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     # authentication_classes = [authentication.SessionAuthentication, TokenAuthentication]
@@ -39,19 +42,26 @@ class ProductCreateAPIView(StaffEditorPermissionMixin,generics.ListCreateAPIView
             content = title
         serializer.save(user = self.request.user, content = content)
 
-    def get_queryset(self):
-        qs = super().get_queryset()
-        request = self.request
-        return qs.filter(user = request.user)
+    # def get_queryset(self):
+    #     qs = super().get_queryset()
+    #     request = self.request
+    #     return qs.filter(user = request.user)
         
 
 
 
-class ProductDetailAPIView(StaffEditorPermissionMixin,generics.RetrieveAPIView):
+class ProductDetailAPIView(
+    UserQuerySetMixin,
+    StaffEditorPermissionMixin,
+    generics.RetrieveAPIView):
+
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
-class ProductUpdateAPIView(StaffEditorPermissionMixin,generics.UpdateAPIView):
+class ProductUpdateAPIView(
+    UserQuerySetMixin,
+    StaffEditorPermissionMixin,
+    generics.UpdateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     lookup_field = 'pk'
@@ -61,7 +71,9 @@ class ProductUpdateAPIView(StaffEditorPermissionMixin,generics.UpdateAPIView):
         if not instance.content:
             instance.content = instance.title
 
-class ProductDeleteAPIView(StaffEditorPermissionMixin,generics.DestroyAPIView):
+class ProductDeleteAPIView(UserQuerySetMixin,
+    StaffEditorPermissionMixin,
+    generics.DestroyAPIView):
     queryset = Product.objects.all()
     
 
