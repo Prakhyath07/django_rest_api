@@ -4,6 +4,8 @@ from .models import Product
 from .serializers import ProductSerializer
 from .permissions import IsStaffEditorPermission
 
+from .authentication import TokenAuthentication
+
 # class ProductCreateAPIView(generics.CreateAPIView):
 #     queryset = Product.objects.all()
 #     serializer_class = ProductSerializer
@@ -22,7 +24,7 @@ from .permissions import IsStaffEditorPermission
 class ProductCreateAPIView(generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    authentication_classes = [authentication.SessionAuthentication]
+    authentication_classes = [authentication.SessionAuthentication, TokenAuthentication]
     permission_classes = [permissions.IsAdminUser,IsStaffEditorPermission]
 
 
