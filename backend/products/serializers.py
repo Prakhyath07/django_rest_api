@@ -2,6 +2,7 @@ from rest_framework import serializers
 from rest_framework.reverse import reverse
 
 from .models import Product
+from .validators import validate_title_no_hello, unique_product_title
 
 class ProductSerializer(serializers.ModelSerializer):
     ## to change the name from get_discount to my_discount
@@ -14,12 +15,13 @@ class ProductSerializer(serializers.ModelSerializer):
         lookup_field = 'pk'
     )
 
+    title = serializers.CharField(validators = [unique_product_title,validate_title_no_hello ])
+
     class Meta:
         model = Product
 
         fields = [
             'url',
-            'email',
             'edit_url',
             'pk',
             'title',
@@ -28,14 +30,21 @@ class ProductSerializer(serializers.ModelSerializer):
             'sale_price',
             'my_discount',
         ]
+    
+    # def validate_title(self,value):
+    #     qs = Product.objects.filter(title__iexact = value)
+    #     if qs.exists():
+    #         raise serializers.ValidationError(f"{value} is already a existing product name")
+    #     return value
 
-    def create(self, validated_data):
-        email=validated_data.pop('email')
-        return super().create(validated_data)
 
-    def update(self, instance, validated_data):
-        email=validated_data.pop('email')
-        return super().update(instance, validated_data)
+    # def create(self, validated_data):
+    #     email=validated_data.pop('email')
+    #     return super().create(validated_data)
+
+    # def update(self, instance, validated_data):
+    #     email=validated_data.pop('email')
+    #     return super().update(instance, validated_data)
 
     def get_my_discount(self, obj):
         ## checking id the object passed is an instance of model or not
