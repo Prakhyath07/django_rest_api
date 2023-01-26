@@ -37,8 +37,25 @@ class ProductDetailAPIView(generics.RetrieveAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
-class ProductListAPIView(generics.ListAPIView):
-
-    """ instead of this method we can use create list view which does both list and creation"""
+class ProductUpdateAPIView(generics.UpdateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    lookup_field = 'pk'
+
+    def perform_update(self, serializer):
+        instance = serializer.save()
+        if not instance.content:
+            instance.content = instance.title
+
+class ProductDeleteAPIView(generics.DestroyAPIView):
+    queryset = Product.objects.all()
+    
+
+    def perform_destroy(self, instance):
+        return super().perform_destroy(instance)
+
+# class ProductListAPIView(generics.ListAPIView):
+
+#     """ instead of this method we can use create list view which does both list and creation"""
+#     queryset = Product.objects.all()
+#     serializer_class = ProductSerializer
