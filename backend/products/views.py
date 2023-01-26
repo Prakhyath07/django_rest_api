@@ -6,6 +6,8 @@ from api.permissions import IsStaffEditorPermission
 
 from api.authentication import TokenAuthentication
 
+from api.mixins import StaffEditorPermissionMixin
+
 # class ProductCreateAPIView(generics.CreateAPIView):
 #     queryset = Product.objects.all()
 #     serializer_class = ProductSerializer
@@ -21,7 +23,7 @@ from api.authentication import TokenAuthentication
 
 
 ## listcreate does both list and create
-class ProductCreateAPIView(generics.ListCreateAPIView):
+class ProductCreateAPIView(StaffEditorPermissionMixin,generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     # authentication_classes = [authentication.SessionAuthentication, TokenAuthentication]
@@ -39,11 +41,11 @@ class ProductCreateAPIView(generics.ListCreateAPIView):
 
 
 
-class ProductDetailAPIView(generics.RetrieveAPIView):
+class ProductDetailAPIView(StaffEditorPermissionMixin,generics.RetrieveAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
-class ProductUpdateAPIView(generics.UpdateAPIView):
+class ProductUpdateAPIView(StaffEditorPermissionMixin,generics.UpdateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     lookup_field = 'pk'
@@ -53,7 +55,7 @@ class ProductUpdateAPIView(generics.UpdateAPIView):
         if not instance.content:
             instance.content = instance.title
 
-class ProductDeleteAPIView(generics.DestroyAPIView):
+class ProductDeleteAPIView(StaffEditorPermissionMixin,generics.DestroyAPIView):
     queryset = Product.objects.all()
     
 
