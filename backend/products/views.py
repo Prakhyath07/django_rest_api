@@ -2,6 +2,7 @@ from rest_framework import generics, authentication, permissions
 
 from .models import Product
 from .serializers import ProductSerializer
+from .permissions import IsStaffEditorPermission
 
 # class ProductCreateAPIView(generics.CreateAPIView):
 #     queryset = Product.objects.all()
@@ -22,7 +23,7 @@ class ProductCreateAPIView(generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     authentication_classes = [authentication.SessionAuthentication]
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAdminUser,IsStaffEditorPermission]
 
 
     def perform_create(self, serializer):
@@ -62,3 +63,5 @@ class ProductDeleteAPIView(generics.DestroyAPIView):
 #     """ instead of this method we can use create list view which does both list and creation"""
 #     queryset = Product.objects.all()
 #     serializer_class = ProductSerializer
+#     authentication_classes = [authentication.SessionAuthentication]
+#     permission_classes = [IsStaffEditorPermission]
