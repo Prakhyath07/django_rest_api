@@ -20,5 +20,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('api.urls'), name='api'),
     path('api/products/', include('products.urls'), name='products'),
+    path('api/v2/', include('cfehome.routers'), name='products_routers'),
+
 
 ]
