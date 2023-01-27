@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from api.serializers import UserPublicSerializer
 from rest_framework.reverse import reverse
 
 from .models import Product
@@ -17,6 +18,8 @@ class ProductSerializer(serializers.ModelSerializer):
 
     title = serializers.CharField(validators = [unique_product_title,validate_title_no_hello ])
 
+    owner = UserPublicSerializer(source = 'user', read_only = True)
+
     class Meta:
         model = Product
 
@@ -24,7 +27,7 @@ class ProductSerializer(serializers.ModelSerializer):
             'url',
             'edit_url',
             'pk',
-            # 'user',
+            'owner',
             'title',
             'content',
             'price',
@@ -56,6 +59,7 @@ class ProductSerializer(serializers.ModelSerializer):
         return obj.get_discount()
 
     def get_edit_url(self,obj):
+        
         request = self.context.get('request')
         if request is None:
             return None
