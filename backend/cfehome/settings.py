@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 
+from dotenv import load_dotenv
+load_dotenv()
+import os
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-fdfhmn!(5zc8=y79g)8z*s=*zwx_^p&ssdpyl%4hn7_uwk_+-$'
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -81,10 +85,10 @@ WSGI_APPLICATION = 'cfehome.wsgi.application'
 DATABASES = {
    'default': {
        'ENGINE': 'django.db.backends.postgresql',
-       'NAME': 'api_test',
-       'USER': 'postgres',
-       'PASSWORD': 'sql123',
-       'HOST': 'localhost',
+       'NAME': os.getenv('DJANGO_DATABASE_NAME'),
+       'USER': os.getenv('DJANGO_DATABASE_USER'),
+       'PASSWORD': os.getenv('DJANGO_DATABASE_PASSWORD'),
+       'HOST': os.getenv('DJANGO_DATABASE_HOST'),
        'PORT': '',
    }
 }
